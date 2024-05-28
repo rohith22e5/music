@@ -1,0 +1,109 @@
+{% extends "spotify/layout.html" %}
+{% load static %}
+{% block body %}
+<div class ="profile">
+    <div class="profile-info">
+        <img src="{{ user.image.url }}" alt="profile">
+        
+        <h1>{{ user.username }}</h1>
+        <p>{{ user.email }}</p>
+        <p>{{ user.dob }}</p>
+    </div>
+</div>
+<div class="spotify-playlists">
+    <h1>Created Playlists</h1>
+    <div class="cardContainerWrapper">
+            
+        <div class="cardContainer" id="playlist">
+            {% include 'spotify/partials/playlists.html' with playlists=playlists %}
+        </div>
+        
+    </div>
+    {% if profile %}
+    <h1>Liked Playlists</h1>
+    <div class="cardContainerWrapper">
+            
+        <div class="cardContainer" id="playlist">
+            {% include 'spotify/partials/playlists.html' with playlists=liked_playlists %}
+        </div>
+        <div class="pagination-buttons">
+        <button class="prev" data-section="liked_playlist">&#10094;</button>
+        <button class="next" data-section="liked_playlist">&#10095;</button>
+        </div>
+    </div>
+
+    <h1>Liked Artists</h1>
+    <div class="cardContainerWrapper">
+            
+        <div class="cardContainer" id="artist">
+            {% include 'spotify/partials/artists.html' with artists=liked_artists %}
+        </div>
+        <div class="pagination-buttons">
+        <button class="prev" data-section="liked_artist">&#10094;</button>
+        <button class="next" data-section="liked_artist">&#10095;</button>
+        </div>
+    </div>
+   
+    <h1> Liked Songs</h1>
+    
+        <div class="cardContainerWrapper">    
+            <div class="cardContainer" id="playlist">
+                {% include 'spotify/partials/tracks.html' with tracks=liked_tracks %}
+            </div>
+            <div class="pagination-buttons">
+            <button class="prev" data-section="liked_track">&#10094;</button>
+            <button class="next" data-section="liked_track">&#10095;</button>
+            </div>
+        </div>
+ 
+    {% endif %}
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'spotify/js/profile.js' %}"></script>
+<link href="{% static 'spotify/css/profile.css' %}" rel="stylesheet">
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const paginationState = {
+            artist: 1,
+            album: 1,
+            playlist: 1
+        };
+
+        function attachEventListeners() {
+            document.querySelectorAll('.prev, .next').forEach(button => {
+                button.removeEventListener('click', handlePagination); // Remove existing event listener to prevent duplicates
+                button.addEventListener('click', handlePagination); // Add the event listener
+            });
+        }
+
+        function handlePagination(event) {
+            let section = event.target.dataset.section;
+            if (event.target.classList.contains('prev') && paginationState[section] > 1) {
+                paginationState[section]--;
+            } else if (event.target.classList.contains('next')) {
+                paginationState[section]++;
+            }
+            loadContent(section, paginationState[section]);
+        }
+
+        function loadContent(section, page) {
+            fetch(`?page=${page}&section=${section}`, {
+                headers: {
+                    'x-requested-with': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById(section).innerHTML = data.html;
+                attachEventListeners();  // Re-attach event listeners after updating content
+            });
+        }
+
+        attachEventListeners();
+    });
+</script>
+{% endblock %}

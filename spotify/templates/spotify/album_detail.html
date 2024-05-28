@@ -1,0 +1,123 @@
+{% extends "spotify/layout.html" %}
+{% load static %}
+{% block body %}
+<div class="album-detail">
+    <img src="{{ album.image.url }}" alt="{{ album.name }}">
+    <div class="album-info">
+    <h1>{{ album.name }}</h1>
+    <p>Release Date: {{ album.release_date }}</p>
+    
+    </div>
+</div>
+<div class="album-tracks">
+    <h2>Tracks</h2>
+    <ul>
+        {% for track in tracks %}
+        <li class="track" data-url="{{ track.audio_file.url }}">
+            <button onclick="playTrack(this, '{{ track.audio_file.url }}')" class="play-button">
+                <i class="fas fa-play fa-fw"></i>
+            </button>
+            <img src="{{ track.image.url }}" alt="{{ track.name }}">
+            <span>{{ track.name }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+    
+</div>
+<audio id="audio-player"></audio>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'spotify/js/player.js' %}"></script>
+<style>
+    .album-detail {
+        display: flex;
+        align-items: center;
+        padding-top: 100px;
+        margin-bottom: 20px;
+        
+        background: linear-gradient(to bottom, rgb(129, 62, 189), rgba(255, 255, 255, 0));
+        
+    }
+    .album-info{
+        margin-left: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .album-detail img {
+    width: 150px;
+    height: 150px;
+    margin-left: 15px;
+    border-radius: 15px;
+    margin-right: 20px; /* Add margin to separate the image from details */
+    }
+    .album-info h1{
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    .album-info p{
+        font-size: 16px;
+        margin: 5px 0;
+    }
+    .album-tracks{
+        margin-left: 30px;
+    }
+
+    .album-tracks h2 {
+        font-size: 20px;
+        margin: 10px 0;
+    }
+
+    .album-tracks ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .album-tracks li {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+    }
+
+    .album-tracks li img {
+        width: 40px;
+        height: 40px;
+        border-radius: 10%;
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+    
+    .album-tracks li span {
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
+        .album-tracks li button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: 10px;
+}
+
+    .album-tracks li button i{
+        
+        color: gray;
+        
+    }
+    
+    
+    .album-tracks li.active {
+    background-color: #f0f0f0; /* Change background color to indicate active track */
+}
+
+.album-tracks li.active button i {
+    color: blue; /* Change play icon color to indicate active track */
+}
+
+
+</style>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% for album in albums %}
+<div class="card" data-id="{{ album.id }}" data-type="album">
+    <img src="{{ album.image.url }}" alt="album">
+    <div class="play">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 20V4L19 12L5 20Z" stroke="#000000" fill="#000" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg> 
+    </div>
+    <h2>{{ album.name }}</h2>
+    {% with album.artists.all|first as first_artist %}
+    {% if first_artist %}
+        <p>{{ first_artist.name }}</p>
+    {% else %}
+        <p>No artist found</p>
+    {% endif %}
+    {% endwith %}
+</div>
+{% endfor %}

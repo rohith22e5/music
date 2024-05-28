@@ -1,0 +1,84 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon.png' %}">
+    <link href="{% static 'spotify/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'spotify/css/utility.css' %}" rel="stylesheet">
+    <script src="{% static 'spotify/js/index.js' %}" ></script>
+    <title>Spotify</title>
+    {% block script %}
+    {% endblock %}
+</head>
+<body>
+<div class="container flex bg-black">
+    <div class="left ">
+        <div class="home bg-grey rounded m-1 p-1">
+            <div class="logo">
+                <img src="{% static 'spotify/logos/Spotify-symbol.jpg' %}"  alt="logo"/>
+            </div>
+            <ul>
+                
+                <li><img src="{% static 'spotify/logos/home.svg' %}" alt="home"> <a href="{% url 'index' %}">Home</a></li>
+                <li><img src="{% static 'spotify/logos/search.svg' %}" alt="search"><a href="{% url 'search' %}">Search</a></li>
+            </ul>
+        </div>
+        <div class="library bg-grey rounded m-1 p-1">
+            <div class="heading">
+            <img  src="{% static 'spotify/logos/librarylogo.svg' %}" alt="Logo">
+            <h2>Your Library</h2>
+            </div>
+            <div class="footer">
+              <div><a href="https://www.spotify.com/in-en/legal/" data-encore-id="textLink"><span data-encore-id="type">Legal</span></a></div>
+              <div><a href="https://www.spotify.com/in-en/safetyandprivacy/" data-encore-id="textLink"><span data-encore-id="type">Privacy Center</span></a></div>
+              <div><a href="https://www.spotify.com/in-en/legal/privacy-policy/" data-encore-id="textLink"><span data-encore-id="type">Privacy Policy</span></a></div>
+              <div><a href="https://www.spotify.com/in-en/legal/cookies-policy/" data-encore-id="textLink"><span data-encore-id="type">Cookies</span></a></div>
+              <div><a href="https://www.spotify.com/in-en/legal/privacy-policy/#s3" data-encore-id="textLink"><span data-encore-id="type">About Ads</span></a></div>
+              <div><a href="https://www.spotify.com/in-en/accessibility/" data-encore-id="textLink"><span data-encore-id="type">Accessibility</span></a></div>
+            </div>
+            
+            
+        </div>
+    </div>
+    <div class="right bg-grey rounded ">
+        <div class="header">
+            <div class="nav">
+            <a id="prevPage" href="#"><span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#000000" fill="none">
+                <path d="M15 6C15 6 9.00001 10.4189 9 12C8.99999 13.5812 15 18 15 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            </span>
+            </a>
+            <a id="nextPage" href="#">
+            <span>
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#000000" fill="none">
+            <path d="M9.00005 6C9.00005 6 15 10.4189 15 12C15 13.5812 9 18 9 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg></span>
+            </a>
+            </div>
+            <div class="buttons">
+                {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}"><span>Profile</span></a>
+                <a href="{% url 'settings' %}"><span>Settings</span></a>
+                {% else %}
+                <a href="{% url 'register' %}"><span>Sign up</span></a>
+                <a href="{% url 'login' %}" id="login"><span>Login</span></a>
+               
+
+                {% endif %}
+            </div>
+        </div>
+        {% block body %} 
+        {% endblock %}
+        
+    </div>
+</div>
+    
+    
+</body>
+</html>

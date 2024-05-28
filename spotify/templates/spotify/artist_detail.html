@@ -1,0 +1,121 @@
+{% extends "spotify/layout.html" %}
+{% load static %}
+{% block body %}
+<div class="artist-detail">
+    <img src="{{ artist.image.url }}" alt="{{ artist.name }}">
+    <div class="artist-info">
+        <h1>{{ artist.name }}</h1>
+        <p>Followers: {{ artist.followers }}</p>
+        <p>Genres: {{ artist.genres }}</p>
+    </div>
+</div>
+<div class="artist-tracks">
+    <h2>Tracks</h2>
+    <ol>
+        {% for track in tracks %}
+            <li class="track" data-url="{{ track.audio_file.url }}">
+                <button onclick="playTrack(this, '{{ track.audio_file.url }}')" class="play-button">
+                    <i class="fas fa-play fa-fw"></i>
+                </button>
+                <img src="{{ track.image.url }}" alt="{{ track.name }}">
+                <span>{{ track.name }}</span>
+            </li>
+        {% endfor %}
+    </ol>
+</div>
+<audio id="audio-player"></audio>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'spotify/js/player.js' %}"></script>
+<style>
+    .artist-detail {
+        display: flex;
+        align-items: center;
+        padding-top: 100px;
+        margin-bottom: 20px;
+        
+        background: linear-gradient(to bottom, rgb(40, 3, 105), rgba(255, 255, 255, 0));
+        
+    }
+    .artist-info{
+        margin-left: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .artist-detail img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 20px;
+    margin-left: 15px; /* Add margin to separate the image from details */
+    }
+    .artist-info h1{
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    .artist-info p{
+        font-size: 16px;
+        margin: 5px 0;
+    }
+    .artist-tracks{
+        margin-left: 30px;
+    }
+
+    .artist-tracks h2 {
+        font-size: 20px;
+        margin: 10px 0;
+    }
+
+    .artist-tracks ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .artist-tracks li {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+    }
+
+    .artist-tracks li img {
+        width: 40px;
+        height: 40px;
+        border-radius: 10%;
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
+    .artist-tracks li span {
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
+        .artist-tracks li button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: 10px;
+}
+
+    
+    
+    .artist-tracks li button i{
+        
+        color: gray;
+        
+    }
+
+    .artist-tracks li.active {
+    background-color: #f0f0f0; /* Change background color to indicate active track */
+}
+
+.artist-tracks li.active button i {
+    color: blue; /* Change play icon color to indicate active track */
+}
+</style>
+{% endblock %}

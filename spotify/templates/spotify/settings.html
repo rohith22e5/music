@@ -1,0 +1,56 @@
+{% extends "spotify/layout.html" %}
+{% load static %}
+{% block body %}
+
+<form  action="{% url 'settings' %}" method="post" >
+    {% csrf_token %}
+    <h2>Profile</h2>
+    <br>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" value="{{ user.username }}">
+    <br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" value="{{ user.email }}">
+    <br>
+    <label for="dob">Date of Birth:</label>
+    <input type="date" id="dob" name="dob" value="{{ user.dob }}">
+    <br>
+    <label for="mobile">Mobile:</label>
+    <input type="text" id="mobile" name="mobile" value="{{ user.mobile }}">
+    <br>
+    <label for="img">Change profile pic:</label>
+    <input type="file" id="img" name="image">
+    <br><br>
+    <h2>Playback Preferences</h2>
+    <br>
+    <label for="audio_quality">Audio Quality:</label>
+    <select id="audio_quality" name="audio_quality">
+        <option value="low" {% if user_profile.audio_quality == 'low' %}selected{% endif %}>Low</option>
+        <option value="medium" {% if user_profile.audio_quality == 'medium' %}selected{% endif %}>Medium</option>
+        <option value="high" {% if user_profile.audio_quality == 'high' %}selected{% endif %}>High</option>
+    </select>
+    <br><br>
+    <div id="checkbox1">
+    <label for="crossfade">Crossfade:</label>
+    <input type="checkbox" id="crossfade" name="crossfade" {% if user_profile.crossfade %}checked{% endif %}>
+   
+    </div>
+    <div id="checkbox2">
+    <label for="autoplay">Autoplay:</label>
+    <input type="checkbox" id="autoplay" name="autoplay" {% if user_profile.autoplay %}checked{% endif %}>
+    
+    </div>
+    <br>
+    <input type="submit" id ="submit" value="Save Changes">
+</form>
+
+     
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'spotify/js/settings.js' %}"></script>
+<link href="{% static 'spotify/css/settings.css' %}" rel="stylesheet">
+
+
+{% endblock %}

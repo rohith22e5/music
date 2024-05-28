@@ -1,0 +1,43 @@
+{% extends "spotify/layout.html" %}
+{% load static %}
+{% block body %}
+<div class="track-detail">
+    <img src="{{ track.image.url }}" alt="{{ track.name }}">
+    <h1>{{ track.name }}</h1>
+    <button onclick="playTrack('{{ track.audio_file.url }}')">Play</button>
+</div>
+<audio id="audio-player"></audio>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'spotify/js/player.js' %}"></script>
+<style>
+    .track-detail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .track-detail img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+    }
+
+    .track-detail h1 {
+        font-size: 24px;
+        margin: 10px 0;
+    }
+
+    .track-detail button {
+        font-size: 16px;
+        margin: 10px 0;
+        padding: 10px 20px;
+        background-color: #1db954;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+{% endblock %}

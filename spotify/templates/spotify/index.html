@@ -1,0 +1,87 @@
+{% extends "spotify/layout.html" %}
+{% load static %}
+{% block body %}
+
+<div class="spotify-sections">
+    <h1>Popular Artists</h1>
+    <div class="cardContainerWrapper">
+        
+        <div class="cardContainer" id="artist">
+            {% include 'spotify/partials/artists.html' with artists=popular_artists %}
+        </div>
+        <div class=" pagination-buttons">
+        <button class="prev" data-section="artist">&#10094;</button>
+        <button class="next" data-section="artist">&#10095;</button>
+        </div>
+    </div>
+
+    <h1>Popular Albums</h1>
+    <div class="cardContainerWrapper">
+        
+        <div class="cardContainer" id="album">
+            {% include 'spotify/partials/albums.html' with albums=popular_albums %}
+        </div>
+        <div class ="pagination-buttons">
+        <button class="prev" data-section="album">&#10094;</button>
+        <button class="next" data-section="album">&#10095;</button>
+        </div>
+    </div>
+
+    <h1>Popular Playlists</h1>
+    <div class="cardContainerWrapper">
+        
+        <div class="cardContainer" id="playlist">
+            {% include 'spotify/partials/playlists.html' with playlists=popular_playlists %}
+        </div>
+        <div class="pagination-buttons">
+        <button class="prev" data-section="playlist">&#10094;</button>
+        <button class="next" data-section="playlist">&#10095;</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const paginationState = {
+            artist: 1,
+            album: 1,
+            playlist: 1
+        };
+
+        function attachEventListeners() {
+            document.querySelectorAll('.prev, .next').forEach(button => {
+                button.removeEventListener('click', handlePagination); // Remove existing event listener to prevent duplicates
+                button.addEventListener('click', handlePagination); // Add the event listener
+            });
+        }
+
+        function handlePagination(event) {
+            let section = event.target.dataset.section;
+            if (event.target.classList.contains('prev') && paginationState[section] > 1) {
+                paginationState[section]--;
+            } else if (event.target.classList.contains('next')) {
+                paginationState[section]++;
+            }
+            loadContent(section, paginationState[section]);
+        }
+
+        function loadContent(section, page) {
+            fetch(`?page=${page}&section=${section}`, {
+                headers: {
+                    'x-requested-with': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById(section).innerHTML = data.html;
+                attachEventListeners();  // Re-attach event listeners after updating content
+            });
+        }
+
+        attachEventListeners();
+    });
+</script>
+{% endblock %}

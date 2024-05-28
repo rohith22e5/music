@@ -1,0 +1,12 @@
+{% for playlist in playlists %}
+<div class="card"  data-id="{{ playlist.id }}" data-type="playlist">
+    <img src="{{ playlist.image.url }}" alt="playlist">
+    <div class="play">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 20V4L19 12L5 20Z" stroke="#000000" fill="#000" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg> 
+    </div>
+    <h2>{{ playlist.name }}</h2>
+    <p>Playlist</p>
+</div>
+{% endfor %}
