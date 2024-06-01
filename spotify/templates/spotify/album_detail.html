@@ -24,6 +24,26 @@
     </ul>
     
 </div>
+<div id="bottom-player" class="bottom-player">
+    <div class="track-info">
+        <img id="bottom-player-image" src="" alt="track image">
+        <div>
+            <span id="bottom-player-title">Track Name</span>
+            <span id="bottom-player-artist">Artist Name</span>
+        </div>
+    </div>
+    <div class="controls">
+        <button onclick="prevTrack()"><i class="fas fa-backward fa-fw"></i></button>
+        <button onclick="togglePlayPause()" id="play-pause-button"><i class="fas fa-play fa-fw"></i></button>
+        <button onclick="nextTrack()"><i class="fas fa-forward fa-fw"></i></button>
+    </div>
+    <div class="track-duration">
+        <span id="current-time">0:00</span>
+        <input type="range" id="seek-bar" value="0">
+        <span id="total-duration">0:00</span>
+    </div>
+</div>
+
 <audio id="audio-player"></audio>
 {% endblock %}
 
@@ -117,6 +137,64 @@
 .album-tracks li.active button i {
     color: blue; /* Change play icon color to indicate active track */
 }
+
+.bottom-player {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #282828;
+        color: white;
+        display: none;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+       
+        transition: opacity 0.3s;
+    }
+
+    .track-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .track-info img {
+        width: 60px;
+        height: 60px;
+        margin-right: 10px;
+    }
+
+    .controls {
+        display: flex;
+        align-items: center;
+    }
+
+    .controls button {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 18px;
+        margin: 0 10px;
+        cursor: pointer;
+    }
+
+    .track-duration {
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
+    }
+
+    .track-duration span {
+        margin: 0 5px;
+    }
+
+    #seek-bar {
+        width: 200px;
+    }
+
+    .hidden {
+        display: none;
+    }
 
 
 </style>

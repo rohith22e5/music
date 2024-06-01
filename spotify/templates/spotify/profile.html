@@ -78,6 +78,15 @@
                 button.removeEventListener('click', handlePagination); // Remove existing event listener to prevent duplicates
                 button.addEventListener('click', handlePagination); // Add the event listener
             });
+
+            attachCardClickListeners(); // Reattach card click listeners
+        }
+
+        function attachCardClickListeners() {
+            document.querySelectorAll('.card').forEach(card => {
+                card.removeEventListener('click', handleCardClick); // Remove existing event listener to prevent duplicates
+                card.addEventListener('click', handleCardClick); // Add the event listener
+            });
         }
 
         function handlePagination(event) {
@@ -88,6 +97,16 @@
                 paginationState[section]++;
             }
             loadContent(section, paginationState[section]);
+        }
+
+        function handleCardClick() {
+            const id = this.getAttribute('data-id');
+            const type = this.getAttribute('data-type');
+            if (id && type) {
+                window.location.href = `/${type}/${id}/`;
+            } else {
+                console.error('Card ID or type not found');
+            }
         }
 
         function loadContent(section, page) {
