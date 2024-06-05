@@ -34,6 +34,31 @@ body {
     list-style: none;
     padding-top: 14px;
     font-weight: bold;
+    
+}
+.nav-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #121212;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link img {
+    margin-right: 10px;
+    fill: currentColor; 
+}
+
+.nav-link:hover,
+.nav-link:focus,
+.nav-item.active .nav-link {
+     
+    color: #868686; 
+}
+
+/* Ensuring the SVG fill color changes with the text color */
+.nav-link img {
+    fill: currentColor;
 }
 
 
