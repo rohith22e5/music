@@ -135,6 +135,48 @@ function formatTime(seconds) {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
+function getCSRFToken() {
+    return document.querySelector('[name=csrfmiddlewaretoken]').value;
+}
+
+function toggleAlbumLike(button, albumId) {
+    fetch(`/toggle_like_album/${albumId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCSRFToken(),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ album_id: albumId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'liked') {
+            button.querySelector('i').classList.add('liked');
+        } else {
+            button.querySelector('i').classList.remove('liked');
+        }
+    });
+}
+
+function toggleTrackLike(button, trackId) {
+    fetch(`/toggle_like_track/${trackId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCSRFToken(),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ track_id: trackId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'liked') {
+            button.querySelector('i').classList.add('liked');
+        } else {
+            button.querySelector('i').classList.remove('liked');
+        }
+    });
+}
+
 // Optional: Add CSS for highlighting
 const style = document.createElement('style');
 style.innerHTML = `
